@@ -18,9 +18,9 @@ class Menu:
         #pygame.mixer_music.play(-1)
 
         title_text = "Battle in the Deep"
-        title_font_size = 50
-        option_font_size = 28
-        option_spacing = 40
+        title_font_size = 20
+        option_font_size = 18
+        option_spacing = 5
 
         # Calcula altura total do título e opções
         title_height = title_font_size

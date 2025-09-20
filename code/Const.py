@@ -5,12 +5,12 @@ COLOR_WHITE = (255, 255, 255)
 
 #E
 ENTITY_SPEED = {
-    'Level1BG1': 1,
-    'Level1BG2': 2,
-    'Level1BG3': 3,
-    'Level1BG4': 4,
-    'Level1BG5': 5,
-    'Level1BG6': 6,
+    'Level1Bg0': 0,
+    'Level1Bg1': 1,
+    'Level1Bg2': 2,
+    'Level1Bg3': 3,
+    'Level1Bg4': 4,
+    'Level1Bg5': 5,
 
 }
 
@@ -19,5 +19,5 @@ MENU_OPTION = ('NEW GAME',
                'SCORE',
                'EXIT')
 #W
-WIN_WIDTH = 1800
-WIN_HEIGHT = 950
+WIN_WIDTH = 576
+WIN_HEIGHT = 324

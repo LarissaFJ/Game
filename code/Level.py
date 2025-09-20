@@ -1,47 +1,34 @@
 import pygame
+from pygame import surface
+
+from code.Entity import Entity
 from code.EntityFactory import EntityFactory
 
 
 class Level:
-    def __init__(self, screen, name, game_mode):
-        self.screen = screen
+    def __init__(self, window, name, game_mode):
+        self.window = window
         self.name = name
         self.game_mode = game_mode
-        self.entity_list = []
+        self.entity_list : list[Entity] = []
+        self.entity_list.extend(EntityFactory.get_entity('Level1Bg'))
 
         # Exibe uma tela de carregamento rápida
-        self.screen.fill((0, 0, 0))
-        font = pygame.font.Font(None, 40)
-        text = font.render("Carregando...", True, (255, 255, 255))
-        rect = text.get_rect(center=(self.screen.get_width() // 2, self.screen.get_height() // 2))
-        self.screen.blit(text, rect)
-        pygame.display.update()
+        #self.window.fill((0, 0, 0))
+        #font = pygame.font.Font(None, 40)
+        #text = font.render("Carregando...", True, (255, 255, 255))
+        #rect = text.get_rect(center=(self.window.get_width() // 2, self.window.get_height() // 2))
+        #self.window.blit(text, rect)
+        #pygame.display.update()
 
-        # Alteramos 'Level1BG' para 'Level1Bg' para casar com o match da EntityFactory
-        self.entity_list.extend(EntityFactory.get_entity('Level1Bg'))
-        print(f"Entidades carregadas: {len(self.entity_list)}")  # Debug: quantas entidades foram carregadas
-        pygame.display.update()
 
-    def run(self, player_score):
+    def run(self):
         running = True
         clock = pygame.time.Clock()
         while running:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    running = False
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_ESCAPE:
-                        running = False
-
-            self.screen.fill((0, 0, 0))  # Limpa a tela antes de desenhar
-
-            for entity in self.entity_list:
-                if hasattr(entity, "move"):  # Atualiza a posição se houver método move()
-                    entity.move()
-                if hasattr(entity, "surf") and hasattr(entity, "rect"):
-                    self.screen.blit(entity.surf, entity.rect)
-                else:
-                    print("Entidade sem surf ou rect:", entity)
+            for ent in self.entity_list:
+                self.window.blit(source=ent.surf, dest=ent.rect)
+                ent.move()
 
             pygame.display.flip()
             clock.tick(60)  # Limita a 60 FPS
