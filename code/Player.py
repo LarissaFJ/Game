@@ -2,14 +2,16 @@ from abc import ABC
 
 import pygame
 
-from code.Const import WIN_HEIGHT, WIN_WIDTH, ENTITY_SPEED
+from code.Const import WIN_HEIGHT, WIN_WIDTH, ENTITY_SPEED, SHOOT_DELAY
 from code.Entity import Entity
+from code.PlayerShot import PlayerShot
 
 
 class Player(Entity, ABC):
 
     def __init__(self, name, position):
         super().__init__(name, position)
+       # self.shoot_delay = SHOOT_DELAY [self.name]
 
     def move(self):
         pressed_keys = pygame.key.get_pressed()
@@ -21,4 +23,11 @@ class Player(Entity, ABC):
             self.rect.centerx -= ENTITY_SPEED[self.name]
         if pressed_keys[pygame.K_d] and self.rect.right < WIN_WIDTH:
                 self.rect.centerx += ENTITY_SPEED[self.name]
+
+
+    def shoot(self):
+        pressed_keys = pygame.key.get_pressed()
+        if pressed_keys[pygame.K_SPACE]:
+            return PlayerShot('PlayerShot', (self.rect.centerx + 10, self.rect.centery))
+        return None
 
