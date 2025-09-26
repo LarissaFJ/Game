@@ -22,6 +22,9 @@ class Level:
         self.entity_list.extend(EntityFactory.get_entity('Level1Bg')) #carrega a imagem do backgroung
         self.entity_list.append(EntityFactory.get_entity('Player')) #carrega a imagem do player
         self.timeout = 60000  # Tempo limite em milissegundos (60 segundos)
+        self.current_spawn_time = SPAWN_TIME
+        self.last_difficulty_increase = 0
+        self.enemies_per_spawn = 1
 
         # Exibe uma tela de carregamento rápida
         #self.window.fill((0, 0, 0))
@@ -31,7 +34,7 @@ class Level:
         #self.window.blit(text, rect)
         #pygame.display.update()
 
-        pygame.time.set_timer(EVENT_ENEMY, SPAWN_TIME ) #GERAÇÃO DO EVENTO
+        pygame.time.set_timer(EVENT_ENEMY, self.current_spawn_time) #GERAÇÃO DO EVENTO
 
 
     def run(self):
@@ -53,8 +56,16 @@ class Level:
                     pygame.quit()
                     sys.exit()
                 if event.type == EVENT_ENEMY:
-                    choice = random.choice(('Enemy1','Enemy2'))
-                    self.entity_list.append(EntityFactory.get_entity(choice))
+                    # Spawna múltiplos inimigos
+                    for _ in range(self.enemies_per_spawn):
+                        choice = random.choice(('Enemy1','Enemy2'))
+                        self.entity_list.append(EntityFactory.get_entity(choice))
+                    
+                    # Aumenta dificuldade a cada 5 segundos
+                    current_time = pygame.time.get_ticks()
+                    if current_time - self.last_difficulty_increase >= 5000:
+                        self.enemies_per_spawn += 1
+                        self.last_difficulty_increase = current_time
 
             #print na tela
             self.level_text(14 , f'{self.name} - Timeout:{self.timeout/1000 :.1f}s', COLOR_WHITE, (10, 5))

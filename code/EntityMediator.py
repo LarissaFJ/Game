@@ -1,4 +1,4 @@
-from code.Const import WIN_HEIGHT
+from code.Const import WIN_HEIGHT, WIN_WIDTH
 from code.Enemy import Enemy
 from code.Entity import Entity
 from code.PlayerShot import PlayerShot
@@ -11,7 +11,7 @@ class EntityMediator:
         if isinstance(ent,Enemy) and  ent.rect.right < 0:
              ent.health = 0
         if isinstance(ent,PlayerShot):
-            if ent.rect.left >= WIN_HEIGHT:
+            if ent.rect.left >= WIN_WIDTH:
                 ent.health = 0
 
     @staticmethod
