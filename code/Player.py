@@ -13,6 +13,8 @@ class Player(Entity, ABC):
         super().__init__(name, position)
         self.shoot_delay = SHOOT_DELAY[self.name]
         self.last_shot = 0
+        self.invulnerable_time = 0
+        self.invulnerable_duration = 1000  # 1 segundo de invencibilidade
 
     def move(self):
         pressed_keys = pygame.key.get_pressed()

@@ -23,6 +23,8 @@ class EntityFactory:
                 return Enemy('Enemy1', (WIN_WIDTH + 10, random.randint(20, WIN_HEIGHT -20))) #spawn aleatório
             case 'Enemy2':
                 return Enemy('Enemy2', (WIN_WIDTH + 10, random.randint(20, WIN_HEIGHT -20)))
+            case 'Enemy3':
+                return Enemy('Enemy3', (WIN_WIDTH + 10, random.randint(20, WIN_HEIGHT -20)))
 
 
 
