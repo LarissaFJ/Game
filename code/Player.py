@@ -15,6 +15,7 @@ class Player(Entity, ABC):
         self.last_shot = 0
         self.invulnerable_time = 0
         self.invulnerable_duration = 1000  # 1 segundo de invencibilidade
+        self.original_surf = self.surf.copy()  # Guarda imagem original
 
     def move(self):
         pressed_keys = pygame.key.get_pressed()
@@ -26,6 +27,16 @@ class Player(Entity, ABC):
             self.rect.centerx -= ENTITY_SPEED[self.name]
         if pressed_keys[pygame.K_d] and self.rect.right < WIN_WIDTH:
                 self.rect.centerx += ENTITY_SPEED[self.name]
+        
+        # Atualiza cor baseado na invencibilidade
+        current_time = pygame.time.get_ticks()
+        if current_time - self.invulnerable_time < self.invulnerable_duration:
+            # Aplica tom vermelho ao tomar dano
+            self.surf = self.original_surf.copy()
+            self.surf.fill((255, 100, 100), special_flags=pygame.BLEND_MULT)
+        else:
+            # Restaura cor original
+            self.surf = self.original_surf.copy()
 
 
     def shoot(self):
