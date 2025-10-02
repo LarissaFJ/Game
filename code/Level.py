@@ -15,7 +15,7 @@ from code.ScoreManager import ScoreManager
 
 
 class Level:
-    def __init__(self, window, name, game_mode, player_name="Anônimo"):
+    def __init__(self, window, name, game_mode, player_name="Anonymous"):
         self.window = window
         self.name = name
         self.game_mode = game_mode

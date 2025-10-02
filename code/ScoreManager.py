@@ -12,3 +12,6 @@ class ScoreManager:
     def load_scores(self):
         results = self.db.get_top_scores()
         return [{"name": row[0], "score": row[1]} for row in results]
+    
+    def clear_scores(self):
+        self.db.clear_scores()

@@ -17,12 +17,12 @@ class ScoreScreen:
             self.window.fill((0, 0, 0))
             
             # Título
-            self.centered_text(24, "MELHORES TEMPOS", COLOR_PINK, 30)
+            self.centered_text(24, "HIGH SCORES", COLOR_PINK, 30)
             
             # Scores
             y = 80
             if scores:
-                for i, entry in enumerate(scores[:10]):
+                for i, entry in enumerate(scores):
                     if isinstance(entry, dict):
                         text = f"{i+1}. {entry['name']} - {entry['score']}s"
                     else:
@@ -30,10 +30,10 @@ class ScoreScreen:
                     self.centered_text(18, text, COLOR_WHITE, y)
                     y += 25
             else:
-                self.centered_text(18, "Nenhum score registrado", COLOR_WHITE, y)
+                self.centered_text(18, "No scores recorded", COLOR_WHITE, y)
             
             # Instruções
-            self.centered_text(16, "Pressione ESC para voltar", COLOR_WHITE, WIN_HEIGHT - 30)
+            self.centered_text(16, "ESC: Back | C: Clear Scores", COLOR_WHITE, WIN_HEIGHT - 30)
             
             pygame.display.flip()
             
@@ -44,6 +44,9 @@ class ScoreScreen:
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
                         return
+                    elif event.key == pygame.K_c:
+                        self.score_manager.clear_scores()
+                        scores = []  # Atualiza lista local
     
     def centered_text(self, text_size: int, text: str, text_color: tuple, y_pos: int):
         text_font: Font = pygame.font.SysFont(name="Lucida Sans Typewriter", size=text_size)

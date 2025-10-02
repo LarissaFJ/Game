@@ -21,8 +21,11 @@ class DBProxy():
         self.execute("INSERT INTO scores (player_name, score) VALUES (?, ?)", (player_name, score))
     
     def get_top_scores(self):
-        self.execute("SELECT player_name, score FROM scores ORDER BY score DESC LIMIT 10")
+        self.execute("SELECT player_name, score FROM scores ORDER BY score DESC LIMIT 5")
         return self.fetchall()
+    
+    def clear_scores(self):
+        self.execute("DELETE FROM scores")
     
     def execute(self, query: str, params=None):
         if params:
