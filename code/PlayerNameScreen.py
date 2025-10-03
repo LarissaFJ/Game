@@ -8,6 +8,7 @@ class PlayerNameScreen:
     def __init__(self, window):
         self.window = window
         self.player_name = ""
+        self.error_message = ""
     
     def run(self):
         while True:
@@ -15,7 +16,13 @@ class PlayerNameScreen:
             
             self.centered_text(24, "ENTER YOUR NAME", COLOR_PINK, 100)
             self.centered_text(20, self.player_name + "_", COLOR_WHITE, 150)
-            self.centered_text(16, "Press ENTER to confirm", COLOR_WHITE, 200)
+            if len(self.player_name.strip()) >= 3:
+                self.centered_text(16, "Press ENTER to confirm", COLOR_WHITE, 200)
+            else:
+                self.centered_text(16, "Name must have at least 3 characters", COLOR_BLUE, 200)
+            
+            if self.error_message:
+                self.centered_text(14, self.error_message, (255, 0, 0), 230)
             
             pygame.display.flip()
             
@@ -24,8 +31,11 @@ class PlayerNameScreen:
                     pygame.quit()
                     sys.exit()
                 if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_RETURN and self.player_name.strip():
-                        return self.player_name.strip()
+                    if event.key == pygame.K_RETURN:
+                        if len(self.player_name.strip()) >= 3:
+                            return self.player_name.strip()
+                        else:
+                            self.error_message = "Please enter at least 3 characters!"
                     elif event.key == pygame.K_BACKSPACE:
                         self.player_name = self.player_name[:-1]
                     elif event.unicode.isprintable() and len(self.player_name) < 15:

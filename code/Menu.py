@@ -3,7 +3,8 @@ from pygame import Surface, Rect
 from pygame.font import Font
 import pygame
 
-from code.Const import WIN_WIDTH,MENU_OPTION, COLOR_WHITE, COLOR_PINK, COLOR_BLUE
+from code.Const import WIN_WIDTH, MENU_OPTION, COLOR_WHITE, COLOR_PINK, COLOR_BLUE, COLOR_YELLOW, COLOR_GREEN, \
+    COLOR_BLUE2
 
 
 class Menu:
@@ -14,12 +15,12 @@ class Menu:
 
     def run(self):
         menu_option = 0
-        #pygame.mixer_music.load('./asset/Menu.mp3')
-        #pygame.mixer_music.play(-1)
+        pygame.mixer.music.load('./asset/underwater.wav')
+        pygame.mixer.music.play(-1)
 
         title_text = "Battle in the Deep"
         title_font_size = 20
-        option_font_size = 18
+        option_font_size = 16
         option_spacing = 5
 
         # Calcula altura total do título e opções
@@ -35,12 +36,15 @@ class Menu:
             self.window.blit(source=self.surf, dest=self.rect)
 
             # Desenha o título centralizado em uma linha
-            self.menu_text(title_font_size, title_text, COLOR_PINK, (WIN_WIDTH // 2, y_start + title_font_size // 2))
+            self.menu_text(title_font_size, title_text, COLOR_GREEN, (WIN_WIDTH // 2, y_start + title_font_size // 2))
+            
+            # Desenha "Demo Version" embaixo do título
+            self.menu_text(20, "Demo Version 1.0", COLOR_BLUE2, (WIN_WIDTH // 2, y_start + title_font_size + 30))
 
             # Desenha as opções centralizadas abaixo do título
             y = y_start + title_height + gap
             for i in range(len(MENU_OPTION)):
-                color = COLOR_BLUE if i == menu_option else COLOR_WHITE
+                color = COLOR_YELLOW if i == menu_option else COLOR_WHITE
                 self.menu_text(option_font_size, MENU_OPTION[i], color, (WIN_WIDTH // 2, y + option_font_size // 2))
                 y += option_font_size + option_spacing
 
@@ -59,8 +63,17 @@ class Menu:
                     if event.key == pygame.K_RETURN:
                         return MENU_OPTION[menu_option]
 
-    def menu_text(self, text_size: int, text: str, text_color: tuple, text_center_pos: tuple):
-        text_font: Font = pygame.font.SysFont(name="Lucida Sans Typewriter", size=text_size)
+    def menu_text(self, text_size: int, text: str, text_color: tuple, text_center_pos: tuple, shadow=True):
+        # carrega fonte personalizada
+        text_font: Font = pygame.font.Font("./asset/PressStart2P-Regular.ttf", text_size)
+
+        if shadow:
+            # desenha sombra primeiro
+            shadow_surf: Surface = text_font.render(text, True, (20, 148, 31)).convert_alpha()
+            shadow_rect: Rect = shadow_surf.get_rect(center=(text_center_pos[0] + 2, text_center_pos[1] + 2))
+            self.window.blit(shadow_surf, shadow_rect)
+
+        # texto principal
         text_surf: Surface = text_font.render(text, True, text_color).convert_alpha()
         text_rect: Rect = text_surf.get_rect(center=text_center_pos)
-        self.window.blit(source=text_surf, dest=text_rect)
+        self.window.blit(text_surf, text_rect)

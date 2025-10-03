@@ -5,7 +5,7 @@ import pygame
 from pygame import Surface, Rect
 from pygame.font import Font
 
-from code.Const import COLOR_WHITE, WIN_HEIGHT, EVENT_ENEMY, SPAWN_TIME, WIN_WIDTH
+from code.Const import COLOR_WHITE, WIN_HEIGHT, EVENT_ENEMY, SPAWN_TIME, WIN_WIDTH, COLOR_BLUE2
 from code.Enemy import Enemy
 from code.Entity import Entity
 from code.EntityFactory import EntityFactory
@@ -37,8 +37,8 @@ class Level:
 
 
     def run(self):
-        #colocarmusica do level 1
-        #pygame.mixer_music.load('./asset/Level1.mp3')
+        pygame.mixer.music.load('./asset/underwater.wav')
+        pygame.mixer.music.play(-1)
         running = True
         clock = pygame.time.Clock()
         while running:
@@ -91,9 +91,9 @@ class Level:
             
             #print na tela
             if player:
-                self.level_text(16, f'Health: {player.health}', COLOR_WHITE, (WIN_WIDTH - 120, 10))
-            self.level_text(16, f'Time: {self.score}s', COLOR_WHITE, (WIN_WIDTH//2 - 40, 10))
-            self.level_text(16, f'Demo Version', COLOR_WHITE, (10, 10))
+                self.level_text(16, f'Health: {player.health}', COLOR_BLUE2, (WIN_WIDTH - 120, 10))
+            self.level_text(16, f'Time: {self.score}s', COLOR_BLUE2, (WIN_WIDTH//2 - 40, 10))
+            self.level_text(16, f'Demo Version 1.0', COLOR_BLUE2, (10, 10))
             self.level_text(14, f'fps: {clock.get_fps():0f}', COLOR_WHITE, (10, WIN_HEIGHT - 20))
 
 
@@ -141,8 +141,21 @@ class Level:
                 if event.type == pygame.KEYDOWN:
                     waiting = False
     
+    def draw_text_with_shadow(self, text, font, pos, color):
+        # Desenha a sombra (offset de 2 pixels)
+        shadow_surf = font.render(text, True, (0, 0, 0))
+        shadow_rect = shadow_surf.get_rect(center=(pos[0] + 2, pos[1] + 2))
+        self.window.blit(shadow_surf, shadow_rect)
+        
+        # Desenha o texto principal
+        text_surf = font.render(text, True, color)
+        text_rect = text_surf.get_rect(center=pos)
+        self.window.blit(text_surf, text_rect)
+    
     def show_loading(self):
         self.window.fill((0, 0, 0))
+        font = pygame.font.SysFont("Lucida Sans Typewriter", 32)
+        self.draw_text_with_shadow("Battle in the Deep", font, (WIN_WIDTH//2, 70), (255,0,255))
         self.centered_text(24, f"Loading {self.name}...", COLOR_WHITE, WIN_HEIGHT//2 - 20)
         self.centered_text(18, f"Player: {self.player_name}", COLOR_WHITE, WIN_HEIGHT//2 + 20)
         pygame.display.flip()

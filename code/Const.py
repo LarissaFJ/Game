@@ -2,8 +2,11 @@
 import pygame
 
 COLOR_BLUE = (11, 131, 229)
+COLOR_BLUE2 = (1, 43, 91)
+COLOR_GREEN = (20, 67, 31)
 COLOR_PINK = (230, 37, 220)
 COLOR_WHITE = (255, 255, 255)
+COLOR_YELLOW = (255, 255, 0)
 
 # E
 ENTITY_SPEED = {
@@ -19,13 +22,6 @@ ENTITY_SPEED = {
     'Enemy3': 3,
     'PlayerShot': 2,
     'EnemyShot': 1,
-}
-
-SHOOT_DELAY = {
-    'Player': 1,
-    'Enemy1': 1,
-    'Enemy2': 1,
-    'Enemy3': 1
 }
 
 EVENT_ENEMY = pygame.USEREVENT + 1
@@ -49,7 +45,7 @@ ENTITY_HEALTH = {
     'Level1Bg2': 999,
     'Level1Bg3': 999,
     'Level1Bg4': 999,
-    'Player': 300,
+    'Player': 250,
     'Enemy1': 75,
     'Enemy2': 50,
     'Enemy3': 125,
@@ -62,7 +58,15 @@ MENU_OPTION = ('NEW GAME',
                'EXIT')
 
 # S
+SHOOT_DELAY = {
+    'Player': 1,
+    'Enemy1': 1,
+    'Enemy2': 1,
+    'Enemy3': 1
+}
+
 SPAWN_TIME = 4000
+
 # W
 WIN_WIDTH = 576
 WIN_HEIGHT = 324

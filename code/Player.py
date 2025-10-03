@@ -16,6 +16,7 @@ class Player(Entity, ABC):
         self.invulnerable_time = 0
         self.invulnerable_duration = 1000  # 1 segundo de invencibilidade
         self.original_surf = self.surf.copy()  # Guarda imagem original
+        self.shoot_sound = pygame.mixer.Sound('./asset/ShootSound.wav')
 
     def move(self):
         pressed_keys = pygame.key.get_pressed()
@@ -45,6 +46,7 @@ class Player(Entity, ABC):
             current_time = pygame.time.get_ticks()
             if current_time - self.last_shot >= self.shoot_delay * 100: #10 tiros por segundo
                 self.last_shot = current_time
+                self.shoot_sound.play()
                 return PlayerShot('PlayerShot', (self.rect.centerx + 10, self.rect.centery))
         return None
 

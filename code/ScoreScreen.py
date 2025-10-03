@@ -11,6 +11,8 @@ class ScoreScreen:
         self.score_manager = ScoreManager()
     
     def run(self):
+        pygame.mixer.music.load('./asset/underwater.wav')
+        pygame.mixer.music.play(-1)
         scores = self.score_manager.load_scores()
         
         while True:
